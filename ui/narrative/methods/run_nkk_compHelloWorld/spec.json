@@ -31,11 +31,11 @@
             "dropdown_options": {
                 "options": [
                     {
-                        "display": "Energy and mol2",
+                        "display": "Energy and mol2 with Mulliken Charges",
                         "value": "energy and mol2"
                     },
                     {
-                        "display": "Optimization and mol2",
+                        "display": "Optimization and mol2 with Mulliken Charges",
                         "value": "optimization and mol2"
                     }
                 ]
