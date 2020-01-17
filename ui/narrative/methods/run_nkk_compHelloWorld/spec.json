@@ -1,0 +1,77 @@
+{
+    "ver": "0.0.1",
+    "authors": [
+        "nkk_chem"
+    ],
+    "contact": "nkkchem@gmail.com",
+    "categories": ["active"],
+    "widgets": {
+        "input": null,
+        "output": "no-display"
+    },
+    "parameters": [ 
+        {
+            "id": "Input_File",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "" ],
+            "field_type": "dynamic_dropdown",
+            "text_options": {
+                "valid_ws_types": ["" ]
+            }
+        },
+        {
+            "id": "calculation_type",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "energy" ],
+            "field_type": "dropdown",
+            "dropdown_options": {
+                "options": [
+                    {
+                        "display": "Energy and mol2",
+                        "value": "energy and mol2"
+                    },
+                    {
+                        "display": "Optimization and mol2",
+                        "value": "optimization and mol2"
+                    }
+                ]
+            }
+        }
+    ],
+    "behavior": {
+        "service-mapping": {
+            "url": "",
+            "name": "nkk_compHelloWorld",
+            "method": "run_nkk_compHelloWorld",
+            "input_mapping": [
+                {
+                    "narrative_system_variable": "workspace",
+                    "target_property": "workspace_name"
+                },{
+                    "narrative_system_variable": "workspace_id",
+                    "target_property": "workspace_id"
+                },{
+                    "input_parameter": "Input_File",
+                    "target_property": "Input_File"
+                },{
+                    "input_parameter": "calculation_type",
+                    "target_property": "calculation_type"
+                }
+            ],
+            "output_mapping": [
+                {
+                    "service_method_output_path": [0,"report_name"],
+                    "target_property": "report_name"
+                },{
+                    "service_method_output_path": [0,"report_ref"],
+                    "target_property": "report_ref"
+                }
+            ]
+        }
+    },
+    "job_id_output_field": "docker"
+}
