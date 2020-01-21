@@ -1,5 +1,5 @@
 module-name:
-    nkk_compHelloWorld
+    CompMolNWChem
 
 module-description:
     A KBase module

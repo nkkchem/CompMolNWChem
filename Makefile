@@ -1,7 +1,7 @@
-SERVICE = nkk_comphelloworld
-SERVICE_CAPS = nkk_compHelloWorld
-SPEC_FILE = nkk_compHelloWorld.spec
-URL = https://kbase.us/services/nkk_comphelloworld
+SERVICE = compmolnwchem
+SERVICE_CAPS = CompMolNWChem
+SPEC_FILE = CompMolNWChem.spec
+URL = https://kbase.us/services/compmolnwchem
 DIR = $(shell pwd)
 LIB_DIR = lib
 SCRIPTS_DIR = scripts

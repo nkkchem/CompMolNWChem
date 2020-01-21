@@ -108,29 +108,5 @@ def inchi_to_dft(InChI_key,InChIes):
         nw.close()
 
         nwfile = str(key)+".nw"
-        #print('nwfile:',nwfile)
         os.system("mpirun -np 2 --allow-run-as-root nwchem *.nw > nwchem.out 2>error")
-        #os.system('ls')
-        #os.system('tail -20 *.out')
-        cwd = os.getcwd()
-        #print('After Submission:',cwd)
         os.chdir('../..')
-
-
-
-
-
-
-
-        
-# Reads InChI and InChI-key from .csv file
-#with open("test.csv") as f:
-#     InChI_key = [row["InChI-Key"].split('InChIKey=')[1] for row in DictReader(f)] 
-#InChI_key = ['FFQKYPRQEYGKAF-UHFFFAOYSA-L']
-#with open("test.csv") as f:
-#     InChIes   = [row["InChI"] for row in DictReader(f)]
-#InChIes   = ["InChI=1S/CH4NO5P/c2-1(3)7-8(4,5)6/h(H2,2,3)(H2,4,5,6)/p-2"]
-
-#inchi_to_dft(InChI_key, InChIes)
-
-

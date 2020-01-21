@@ -17,13 +17,13 @@ import export as ex
 #END_HEADER
 
 
-class nkk_compHelloWorld:
+class CompMolNWChem:
     '''
     Module Name:
-    nkk_compHelloWorld
+    CompMolNWChem
 
     Module Description:
-    A KBase module: nkk_compHelloWorld
+    A KBase module: CompMolNWChem
     '''
 
     ######## WARNING FOR GEVENT USERS ####### noqa
@@ -33,8 +33,8 @@ class nkk_compHelloWorld:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = "https://github.com/mcnaughtonadm/nkk_compHelloWorld.git"
-    GIT_COMMIT_HASH = "5e75931bf37cdf226115a5d69024bf490bd6206d"
+    GIT_URL = ""
+    GIT_COMMIT_HASH = ""
 
     #BEGIN_CLASS_HEADER
     def _check_param(in_params, req_param, opt_param=list()):
@@ -144,7 +144,7 @@ class nkk_compHelloWorld:
         pass
 
 
-    def run_nkk_compHelloWorld(self, ctx, params):
+    def run_CompMolNWChem(self, ctx, params):
         """
         This example function accepts any number of parameters and returns results in a KBaseReport
         :param params: instance of mapping from String to unspecified object
@@ -153,7 +153,7 @@ class nkk_compHelloWorld:
         """
         # ctx is the context object
         # return variables are: output
-        #BEGIN run_nkk_compHelloWorld
+        #BEGIN run_CompMolNWChem
 
         sim_dir = '~/../simulation'
         os.system('ls')
@@ -214,11 +214,11 @@ class nkk_compHelloWorld:
         
         return [output]
         
-        #END run_nkk_compHelloWorld
+        #END run_CompMolNWChem
 
         # At some point might do deeper type checking...
         if not isinstance(output, dict):
-            raise ValueError('Method run_nkk_compHelloWorld return value ' +
+            raise ValueError('Method run_CompMolNWChem return value ' +
                              'output is not type dict as required.')
         # return the results
         return [output]

@@ -1,10 +1,10 @@
 #
 # define display information
 #
-name: NWChem Computational Chemistry calculations
+name: Method Name Here
 
 tooltip: |
-    Perform computational chemistry calculations using NWChem to obtain quantum chemical properties
+    Perform some kind of method
 
 screenshots: []
 
@@ -24,25 +24,16 @@ suggestions:
 # Configure the display and description of parameters
 #
 parameters :
-    Input_File :
+    parameter_1 :
         ui-name : |
-            SMILES representation of the molecule
+            First parameter
         short-hint : |
-            The SMILES stringh or the csv file containing smiles strings 
+            The first parameter
         long-hint  : |
-            The SMILES string that defines molecule
-    calculation_type :
-        ui-name : |
-            type of the calculation
-        short-hint : |
-            type of the calculation
-        long-hint  : |
-            specification of the calculation
+            The first parameter that needs to be entered to drive the method. This might be the first of many.
 
 description : |
-   <p>Calculate total energy of the molecule using NWChem computational chemistry package. </p>
-   
-   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar efficitur felis, quis tincidunt sem congue at. Vivamus ornare feugiat faucibus. Fusce tincidunt mattis nunc, nec varius purus convallis quis. Nulla facilisi. In at magna dolor. Suspendisse sit amet felis at arcu auctor dapibus vitae pharetra dui. Nam semper mi quis tortor fermentum mollis. Donec a arcu pharetra, rutrum dolor vitae, rutrum mauris. Donec ornare fringilla sagittis. Nam laoreet est in elementum malesuada. Vestibulum id mi eget urna hendrerit feugiat. Donec et ultrices nulla. Phasellus diam eros, dapibus at tempus nec, semper vel ante.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar efficitur felis, quis tincidunt sem congue at. Vivamus ornare feugiat faucibus. Fusce tincidunt mattis nunc, nec varius purus convallis quis. Nulla facilisi. In at magna dolor. Suspendisse sit amet felis at arcu auctor dapibus vitae pharetra dui. Nam semper mi quis tortor fermentum mollis. Donec a arcu pharetra, rutrum dolor vitae, rutrum mauris. Donec ornare fringilla sagittis. Nam laoreet est in elementum malesuada. Vestibulum id mi eget urna hendrerit feugiat. Donec et ultrices nulla. Phasellus diam eros, dapibus at tempus nec, semper vel ante.</p>
 
     <p>Curabitur auctor, metus at tristique euismod, odio elit tincidunt neque, a facilisis sem massa convallis dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc ut hendrerit tellus. Nunc lacinia laoreet finibus. Etiam vitae sagittis enim. Fusce consectetur porta est eu pretium. In hac habitasse platea dictumst. Integer pellentesque sit amet sapien id venenatis. Nullam ac risus at orci eleifend aliquet. Vestibulum elit purus, euismod a nibh quis, pellentesque semper leo. Curabitur ullamcorper felis hendrerit nunc egestas, sit amet pharetra sapien porttitor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas hendrerit ipsum a ligula aliquet vestibulum. Duis a ante urna. Aenean ante neque, rhoncus id luctus ut, accumsan vel nunc.</p>
 

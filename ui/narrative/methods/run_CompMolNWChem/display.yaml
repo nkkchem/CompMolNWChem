@@ -1,0 +1,43 @@
+#
+# define display information
+#
+name: NWChem Computational Chemistry calculations
+
+tooltip: |
+    Perform computational chemistry calculations using NWChem to obtain quantum chemical properties
+
+screenshots: []
+
+icon: icon.png
+
+#
+# define a set of similar apps that might be useful to the user
+#
+suggestions:
+    apps:
+        related:
+            [app1, app2]
+        next:
+            [app3, app4]
+
+#
+# Configure the display and description of parameters
+#
+parameters :
+    Input_File :
+        ui-name : |
+            SMILES representation of the molecule
+        short-hint : |
+            The SMILES stringh or the csv file containing smiles strings 
+        long-hint  : |
+            The SMILES string that defines molecule
+    calculation_type :
+        ui-name : |
+            type of the calculation
+        short-hint : |
+            type of the calculation
+        long-hint  : |
+            specification of the calculation
+
+description : |
+   <p>Calculate total energy of the molecule using NWChem computational chemistry package. </p>

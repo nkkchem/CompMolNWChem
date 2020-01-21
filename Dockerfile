@@ -1,5 +1,5 @@
 FROM kbase/sdkbase2:python
-MAINTAINER nkkchem@gmail.com
+MAINTAINER marat.valiev@gmail.com
 # -----------------------------------------
 # In this section, you can install any system dependencies required
 # to run your App.  For instance, you could place an apt-get update or
@@ -64,10 +64,10 @@ ENV     NWCHEM_BIN=${NWCHEM_TOP}/bin/LINUX64
 ENV     NWCHEM_TEMPLATES_DIR=${NWCHEM_DATA}/templates
 ENV     PATH="${NWCHEM_BIN}:$PATH"
 
-COPY ./nwchem-scripts/test.csv ${NWCHEM_BIN}/
 COPY ./nwchem-scripts/inchi_to_submission.py ${NWCHEM_BIN}/
 COPY ./nwchem-scripts/extract_properties_mulliken_charges_mol2.py ${NWCHEM_BIN}/
 COPY ./nwchem-scripts/compound_parsing.py ${NWCHEM_BIN}/
+COPY ./nwchem-scripts/export.py ${NWCHEM_BIN}/
 
 RUN   mkdir ${NWCHEM_SIM_DIR}
 
@@ -82,5 +82,4 @@ WORKDIR /kb/module
 RUN make all
 
 ENTRYPOINT [ "./scripts/entrypoint.sh" ]
-
 CMD [ ]

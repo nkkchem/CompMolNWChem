@@ -1,4 +1,4 @@
-# nkk_compHelloWorld release notes
+# CompMolNWChem release notes
 =========================================
 
 0.0.0

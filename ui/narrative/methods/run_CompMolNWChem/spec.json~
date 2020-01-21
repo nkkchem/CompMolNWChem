@@ -11,18 +11,7 @@
     },
     "parameters": [ 
         {
-            "id": "InChI_key",
-            "optional": true,
-            "advanced": false,
-            "allow_multiple": false,
-            "default_values": [ "" ],
-            "field_type": "text",
-            "text_options": {
-                "valid_ws_types": [ ]
-            }
-        },
-	{
-            "id": "InChIes",
+            "id": "parameter_1",
             "optional": true,
             "advanced": false,
             "allow_multiple": false,
@@ -36,8 +25,8 @@
     "behavior": {
         "service-mapping": {
             "url": "",
-            "name": "nkk_compHelloWorld",
-            "method": "run_nkk_compHelloWorld",
+            "name": "CompMolNWChem",
+            "method": "run_CompMolNWChem",
             "input_mapping": [
                 {
                     "narrative_system_variable": "workspace",
@@ -46,12 +35,9 @@
                     "narrative_system_variable": "workspace_id",
                     "target_property": "workspace_id"
                 },{
-                    "input_parameter": "InChI_key",
-                    "target_property": "InChI_key"
-                },{
-		    "input_parameter": "InChIes",
-		    "target_property": "InChIes"
-		}
+                    "input_parameter": "parameter_1",
+                    "target_property": "parameter_1"
+                }
             ],
             "output_mapping": [
                 {

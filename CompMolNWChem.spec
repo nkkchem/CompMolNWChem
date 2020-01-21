@@ -1,8 +1,8 @@
 /*
-A KBase module: nkk_compHelloWorld
+A KBase module: CompMolNWChem
 */
 
-module nkk_compHelloWorld {
+module CompMolNWChem {
     typedef structure {
         string report_name;
         string report_ref;
@@ -11,6 +11,6 @@ module nkk_compHelloWorld {
     /*
         This example function accepts any number of parameters and returns results in a KBaseReport
     */
-    funcdef run_nkk_compHelloWorld(mapping<string,UnspecifiedObject> params) returns (ReportResults output) authentication required;
+    funcdef run_CompMolNWChem(mapping<string,UnspecifiedObject> params) returns (ReportResults output) authentication required;
 
 };

@@ -31,11 +31,11 @@
             "dropdown_options": {
                 "options": [
                     {
-                        "display": "Energy and mol2 with Mulliken Charges",
+                        "display": "Energy and mol2",
                         "value": "energy and mol2"
                     },
                     {
-                        "display": "Optimization and mol2 with Mulliken Charges",
+                        "display": "Optimization and mol2",
                         "value": "optimization and mol2"
                     }
                 ]
@@ -45,8 +45,8 @@
     "behavior": {
         "service-mapping": {
             "url": "",
-            "name": "nkk_compHelloWorld",
-            "method": "run_nkk_compHelloWorld",
+            "name": "CompMolNWChem",
+            "method": "run_CompMolNWChem",
             "input_mapping": [
                 {
                     "narrative_system_variable": "workspace",
@@ -75,3 +75,4 @@
     },
     "job_id_output_field": "docker"
 }
+

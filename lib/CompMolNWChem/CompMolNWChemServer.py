@@ -17,7 +17,7 @@ from jsonrpcbase import JSONRPCService, InvalidParamsError, KeywordError, \
 from jsonrpcbase import ServerError as JSONServerError
 
 from biokbase import log
-from nkk_compHelloWorld.authclient import KBaseAuth as _KBaseAuth
+from CompMolNWChem.authclient import KBaseAuth as _KBaseAuth
 
 try:
     from ConfigParser import ConfigParser
@@ -45,14 +45,14 @@ def get_config():
     retconfig = {}
     config = ConfigParser()
     config.read(get_config_file())
-    for nameval in config.items(get_service_name() or 'nkk_compHelloWorld'):
+    for nameval in config.items(get_service_name() or 'CompMolNWChem'):
         retconfig[nameval[0]] = nameval[1]
     return retconfig
 
 config = get_config()
 
-from nkk_compHelloWorld.nkk_compHelloWorldImpl import nkk_compHelloWorld  # noqa @IgnorePep8
-impl_nkk_compHelloWorld = nkk_compHelloWorld(config)
+from CompMolNWChem.CompMolNWChemImpl import CompMolNWChem  # noqa @IgnorePep8
+impl_CompMolNWChem = CompMolNWChem(config)
 
 
 class JSONObjectEncoder(json.JSONEncoder):
@@ -327,7 +327,7 @@ class Application(object):
                                    context['method'], context['call_id'])
 
     def __init__(self):
-        submod = get_service_name() or 'nkk_compHelloWorld'
+        submod = get_service_name() or 'CompMolNWChem'
         self.userlog = log.log(
             submod, ip_address=True, authuser=True, module=True, method=True,
             call_id=True, changecallback=self.logcallback,
@@ -338,12 +338,12 @@ class Application(object):
         self.serverlog.set_log_level(6)
         self.rpc_service = JSONRPCServiceCustom()
         self.method_authentication = dict()
-        self.rpc_service.add(impl_nkk_compHelloWorld.run_nkk_compHelloWorld,
-                             name='nkk_compHelloWorld.run_nkk_compHelloWorld',
+        self.rpc_service.add(impl_CompMolNWChem.run_CompMolNWChem,
+                             name='CompMolNWChem.run_CompMolNWChem',
                              types=[dict])
-        self.method_authentication['nkk_compHelloWorld.run_nkk_compHelloWorld'] = 'required'  # noqa
-        self.rpc_service.add(impl_nkk_compHelloWorld.status,
-                             name='nkk_compHelloWorld.status',
+        self.method_authentication['CompMolNWChem.run_CompMolNWChem'] = 'required'  # noqa
+        self.rpc_service.add(impl_CompMolNWChem.status,
+                             name='CompMolNWChem.status',
                              types=[dict])
         authurl = config.get(AUTH) if config else None
         self.auth_client = _KBaseAuth(authurl)
@@ -398,7 +398,7 @@ class Application(object):
                             err = JSONServerError()
                             err.data = (
                                 'Authentication required for ' +
-                                'nkk_compHelloWorld ' +
+                                'CompMolNWChem ' +
                                 'but no authentication header was passed')
                             raise err
                         elif token is None and auth_req == 'optional':
