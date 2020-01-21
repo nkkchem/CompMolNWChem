@@ -57,20 +57,7 @@ class nkk_compHelloWorldTest(unittest.TestCase):
 
         ret = self.serviceImpl.run_nkk_compHelloWorld(self.ctx, {'workspace_name': self.wsName,
                                                                  'Input_File':'test_compounds.tsv','calculation_type':'energy'})
+
         print("Output")
         print (ret)
-# def test_special_smiles(self):
-        # Prepare test objects in workspace if needed using
-        # self.getWsClient().save_objects({'workspace': self.getWsName(),
-        #                                  'objects': []})
-        #
-        # Run your method by
-        # ret = self.getImpl().your_method(self.getContext(), parameters...)
-        #
-        # Check returned data with
-        # self.assertEqual(ret[...], ...) or other unittest methods
-#        smiles_string = 'N[C@H](C)C(=O)O'
-#        ret = self.serviceImpl.run_nkk_compHelloWorld(self.ctx, {'workspace_name': self.wsName,
-#                                                             'smiles_string': smiles_string})
-#        print("Output")
-#        print (ret)
+        
