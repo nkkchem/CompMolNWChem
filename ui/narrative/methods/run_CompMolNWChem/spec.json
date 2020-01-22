@@ -15,10 +15,10 @@
             "optional": false,
             "advanced": false,
             "allow_multiple": false,
-            "default_values": [ "" ],
+            "default_values": [ "test_compounds.tsv" ],
             "field_type": "dynamic_dropdown",
             "text_options": {
-                "valid_ws_types": ["" ]
+                "valid_ws_types": [""]
             }
         },
         {
