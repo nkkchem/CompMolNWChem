@@ -52,10 +52,23 @@ class CompMolNWChemTest(unittest.TestCase):
             cls.wsClient.delete_workspace({'workspace': cls.wsName})
             print('Test workspace was deleted')
 
+    def getWsClient(self):
+        return self.__class__.wsClient
+
+    def getWsId(self):
+        if hasattr(self.__class__, 'wsId'):
+            return self.__class__.wsId
+        suffix = int(time.time() * 1000)
+        wsName = "test_CompoundSetUtils_" + str(suffix)
+        ret = self.getWsClient().create_workspace({'workspace': wsName})  # noqa
+        self.__class__.wsId = ret[0]
+        return ret[0]
+
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
+
     def test_your_method(self):
 
-        ret = self.serviceImpl.run_CompMolNWChem(self.ctx, {'workspace_name': self.wsName,
+        ret = self.serviceImpl.run_CompMolNWChem(self.ctx, {'workspace_name': self.wsName,'workspace_id':self.getWsId(),
                                                                  'Input_File':'test_compounds.tsv','calculation_type':'energy'})
 
         print("Output")

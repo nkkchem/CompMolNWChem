@@ -225,7 +225,7 @@ class CompMolNWChem:
         comp = CompoundSetUtils(self.callback_url)
         
         #df = CompoundSetUtils.compound_set_from_file(self,ctx,{'compoundset_upload_params':{'workspace_id':params['workspace_name'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']}})
-        df = comp.compound_set_from_file({'compoundset_upload_params':{'workspace_id':params['workspace_id'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']}})
+        df = comp.compound_set_from_file({'workspace_id':params['workspace_id'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']})
         
         exit()
         #df = pd.read_csv(params['Input_File'], sep ='\t')
