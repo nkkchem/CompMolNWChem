@@ -12,7 +12,7 @@ from rdkit.Chem import Descriptors
 from csv import DictReader
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.DataFileUtilClient import DataFileUtil
-from installed_clients.CompoundSetUtils import CompoundSetUtils
+from installed_clients.CompoundSetUtilsClient import CompoundSetUtils
 import compound_parsing as parse
 import export as ex
 #END_HEADER
