@@ -42,8 +42,8 @@ class CompMolNWChem:
     # the latter method is running.
     ######################################### noqa
     VERSION = "0.0.1"
-    GIT_URL = ""
-    GIT_COMMIT_HASH = ""
+    GIT_URL = "https://github.com/nkkchem/CompMolNWChem.git"
+    GIT_COMMIT_HASH = "00a734e1ac3e57a2ee13e110da8a681075557fba"
 
     #BEGIN_CLASS_HEADER
     @staticmethod
@@ -204,6 +204,7 @@ class CompMolNWChem:
         #END_CONSTRUCTOR
         pass
 
+
     def run_CompMolNWChem(self, ctx, params):
         """
         This example function accepts any number of parameters and returns results in a KBaseReport
@@ -225,7 +226,7 @@ class CompMolNWChem:
         comp = CompoundSetUtils(self.callback_url)
         
         #df = CompoundSetUtils.compound_set_from_file(self,ctx,{'compoundset_upload_params':{'workspace_id':params['workspace_name'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']}})
-        df = comp.compound_set_from_file({'compoundset_upload_params':{'workspace_id':params['workspace_id'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']}})
+        df = comp.compound_set_from_file({'compoundset_upload_params':{'workspace_id':params['workspace_name'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']}})
         
         exit()
         #df = pd.read_csv(params['Input_File'], sep ='\t')
