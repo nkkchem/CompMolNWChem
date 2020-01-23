@@ -12,6 +12,7 @@ from rdkit.Chem import Descriptors
 from csv import DictReader
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.DataFileUtilClient import DataFileUtil
+from installed_clients.CompoundSetUtils import CompoundSetUtils
 import compound_parsing as parse
 import export as ex
 #END_HEADER
@@ -161,7 +162,9 @@ class CompMolNWChem:
         
         # Read inputs from .tsv file
 
-        df = pd.read_csv(params['Input_File'], sep ='\t')
+        df = CompoundSetUtils.compound_set_from_file(self,ctx,params['Input_File'])
+        
+        #df = pd.read_csv(params['Input_File'], sep ='\t')
         ids = df['id']
         InChIes = df['structure']
 
