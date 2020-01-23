@@ -46,10 +46,6 @@ class CompMolNWChem:
     GIT_COMMIT_HASH = "0e157ea3f395c544a04c1542473be59ec39129ef"
 
     #BEGIN_CLASS_HEADER
-    # staging file prefix
-    STAGING_GLOBAL_FILE_PREFIX = '/data/bulk/'
-    STAGING_USER_FILE_PREFIX = '/staging/'
-    
     def _get_staging_file_path(self, token_user, staging_file_subdir_path):
         """
         _get_staging_file_path: return staging area file path
@@ -83,7 +79,9 @@ class CompMolNWChem:
         #END_CONSTRUCTOR
         pass
 
-
+    def Move_File(self,tsv,path):
+        os.system('cp {} {}'.format(tsv,path))
+            
     def run_CompMolNWChem(self, ctx, params):
         """
         This example function accepts any number of parameters and returns results in a KBaseReport
@@ -104,18 +102,19 @@ class CompMolNWChem:
 
         
         ### Test Space
+         
+        dat = DataFileUtil(self.callback_url)
+
+        xx = _get_staging_file_path()
+        #xx = dat.download_staging_file({'staging_file_subdir_path':params['Input_File']})
         
-        scratch_file_path = self.dfu.download_staging_file(
-            {'staging_file_subdir_path': params['Input_File']}
-        ).get('copy_file_path')
-        
-               
+
         ###
-        
+        exit()
         # Initialize CompoundSetUtils and pass inputs
         comp = CompoundSetUtils(self.callback_url)
         df = comp.compound_set_from_file({'workspace_id':params['workspace_id'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']})
-        exit()
+        
         # Read the ids and structures of the compounds
         ids = df['id']
         InChIes = df['structure']
