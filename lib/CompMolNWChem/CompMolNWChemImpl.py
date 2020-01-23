@@ -221,7 +221,7 @@ class CompMolNWChem:
 
         
         df = CompoundSetUtils.compound_set_from_file(self,ctx,{'workspace_id':params['workspace_name'],
-                                                               'staging_file_path':self.shared_folder,
+                                                               'staging_file_path':params['Input_File'],
                                                                'compound_set_name':params['Input_File']})
 
         exit()
