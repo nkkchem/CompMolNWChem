@@ -105,7 +105,7 @@ class CompMolNWChem:
 
         
         ### Test Space
-
+        
         scratch_file_path = self.dfu.download_staging_file({'staging_file_subdir_path':params['Input_File']}
                                        ).get('copy_file_path')
 
@@ -126,7 +126,7 @@ class CompMolNWChem:
             raise ValueError('Invalid input file type. Expects .tsv or .sdf')
 
 
-        print('Compounds:',compounds)
+        #print('Compounds:',compounds)
 
         compoundset = {
             'id': params['Input_File'],
@@ -135,24 +135,26 @@ class CompMolNWChem:
             'compounds': compounds,
         }
 
-        
+        print(compounds)
         ###
         
-        # Initialize CompoundSetUtils and pass inputs
+        # Read ids and smiles from compound set for nwchem input
         
-        
-        #df = self.comp.compound_set_from_file({'workspace_id':params['workspace_id'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']})
+        ids = []
+        smiles = []
+
+        for d in compounds:
+           ids.append(d['id'])
+           smiles.append(d['smiles'])
+        print(ids)
+        print(smiles)
+
+        # TODO: Initialize CompoundSetUtils and pass inputs 
         
         # Read the ids and structures of the compounds
-        #ids = compounds['id']
-       # InChIes = compounds['structure']
-
-
+                       
+        its.inchi_to_dft(ids,smiles)
         
-        exit()
-        
-        its.inchi_to_dft(ids,InChIes)
-
         length = len(ids)
         for i in range(length):
             os.chdir('./'+ids[i]+'/dft')
