@@ -3,6 +3,7 @@ import os
 import time
 import unittest
 from configparser import ConfigParser
+import shutil
 
 from unittest.mock import patch
 
@@ -55,6 +56,9 @@ class CompMolNWChemTest(unittest.TestCase):
             cls.wsClient.delete_workspace({'workspace': cls.wsName})
             print('Test workspace was deleted')
 
+    def getContext(self):
+        return self.__class__.ctx
+    
     def getWsClient(self):
         return self.__class__.wsClient
 
@@ -67,32 +71,32 @@ class CompMolNWChemTest(unittest.TestCase):
         self.__class__.wsId = ret[0]
         return ret[0]
 
-    #def getImpl(self):
-    #    return self.__class__.serviceImpl
+    def getImpl(self):
+        return self.__class__.serviceImpl
     
-   # @staticmethod
-   # def fake_staging_download(params):
-    #    scratch = '/kb/module/work/tmp/'
-     #   inpath = params['staging_file_subdir_path']
-      #  shutil.copy('/kb/module/test/'+inpath, scratch+inpath)
-       # return {'copy_file_path': scratch+inpath}
+    @staticmethod
+    def fake_staging_download(params):
+        scratch = '/kb/module/work/tmp/'
+        inpath = params['staging_file_subdir_path']
+        shutil.copy('/kb/module/test/'+inpath, scratch+inpath)
+        return {'copy_file_path': scratch+inpath}
     
     # NOTE: According to Python unittest naming rules test method names should start from 'test'. # noqa
 
-    #@patch.object(DataFileUtil, "download_staging_file",
-    #              new=fake_staging_download)
-    #def test_compound_set_from_file_tsv(self):
-    #    params = {'workspace_id': self.getWsId(),
-    #              'staging_file_path': 'test_compounds.tsv',
-    #              'compound_set_name': 'tsv_set_1',
-    #              'mol2_staging_file_path': 'mol2_files_missing_comp.zip'}
-    #    ret = self.getImpl().compound_set_from_file(self.getContext(), params)[0]
-    #    assert ret and ('report_name' in ret)
-
+    @patch.object(DataFileUtil, "download_staging_file",
+                  new=fake_staging_download)
     def test_your_method(self):
+        params = {'workspace_name': self.wsName,
+                  'workspace_id': self.getWsId(),
+                  'Input_File': 'test_compounds.tsv',
+                  'calculation_type': 'energy'}
+        ret = self.getImpl().run_CompMolNWChem(self.getContext(), params)[0]
+        assert ret and ('report_name' in ret)
 
-        ret = self.serviceImpl.run_CompMolNWChem(self.ctx, {'workspace_name': self.wsName,'workspace_id':self.getWsId(),
-                                                                 'Input_File':'test_compounds.tsv','calculation_type':'energy'})
+#    def test_your_method(self):
 
-        print("Output")
-        print (ret)
+#        ret = self.serviceImpl.run_CompMolNWChem(self.ctx, {'workspace_name': self.wsName,'workspace_id':self.getWsId(),
+#                                                                 'Input_File':'test_compounds.tsv','calculation_type':'energy'})
+
+#        print("Output")
+#        print (ret)

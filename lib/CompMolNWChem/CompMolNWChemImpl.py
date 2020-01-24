@@ -9,7 +9,7 @@ import inchi_to_submission as its
 import extract_properties_mulliken_charges_mol2 as mul
 import compound_parsing as com
 import pandas as pd
-#import compound_parsing as parse
+import compound_parsing as parse
 import export as ex
 
 from pybel import *
@@ -20,7 +20,7 @@ from csv import DictReader
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.CompoundSetUtilsClient import CompoundSetUtils
-#from installed_clients.CompoundSetUtilsClient import compound_parsing as parse
+
 #from CompMolNWChem import CompoundSetUtil
 
 #END_HEADER
@@ -47,24 +47,24 @@ class CompMolNWChem:
 
     #BEGIN_CLASS_HEADER
     # staging file prefix
-    STAGING_GLOBAL_FILE_PREFIX = '/data/bulk/'
-    STAGING_USER_FILE_PREFIX = '/staging/'
+    #STAGING_GLOBAL_FILE_PREFIX = '/data/bulk/'
+    #STAGING_USER_FILE_PREFIX = '/staging/'
     
-    def _get_staging_file_path(self, token_user, staging_file_subdir_path):
-        """
-        _get_staging_file_path: return staging area file path
-        directory pattern:
-            perfered to return user specific path: /staging/sub_dir/file_name
-            if this path is not visible to user, use global bulk path: /data/bulk/user_name/sub_dir/file_name
-        """
-
-        user_path = os.path.join(self.STAGING_USER_FILE_PREFIX, staging_file_subdir_path.strip('/'))
-
-        if os.path.exists(user_path):
-            return user_path
-        else:
-            return os.path.join(self.STAGING_GLOBAL_FILE_PREFIX, token_user,
-                                staging_file_subdir_path.strip('/'))
+   # def _get_staging_file_path(self, token_user, staging_file_subdir_path):
+   #     """
+   #     _get_staging_file_path: return staging area file path
+   #     directory pattern:
+   #         perfered to return user specific path: /staging/sub_dir/file_name
+   #         if this path is not visible to user, use global bulk path: /data/bulk/user_name/sub_dir/file_name
+   #     """
+#
+#        user_path = os.path.join(self.STAGING_USER_FILE_PREFIX, staging_file_subdir_path.strip('/'))
+#
+#        if os.path.exists(user_path):
+#            return user_path
+#        else:
+#            return os.path.join(self.STAGING_GLOBAL_FILE_PREFIX, token_user,
+#                                staging_file_subdir_path.strip('/'))
     
     #END_CLASS_HEADER
 
@@ -75,7 +75,8 @@ class CompMolNWChem:
         self.config = config
         self.callback_url = os.environ['SDK_CALLBACK_URL']
         self.dfu = DataFileUtil(self.callback_url)
-        self.shared_folder = config['scratch']
+        self.comp = CompoundSetUtils(self.callback_url)
+        self.scratch = config['scratch']
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
                             level=logging.INFO)
         #self.scratch = config['scratch']
@@ -105,25 +106,50 @@ class CompMolNWChem:
         
         ### Test Space
 
-        print('Here I am')
-        print('Parameters',params)
-        print('Ctx:',ctx)
-        print('Config:',config)
-        cwd = os.getcwd()
-        print('CWD:',cwd)
-        exit()
-        
+        scratch_file_path = self.dfu.download_staging_file({'staging_file_subdir_path':params['Input_File']}
+                                       ).get('copy_file_path')
+
+        print('Scratch File Path: ',scratch_file_path)
+
+        mol2_file_dir = None        
+        ext = os.path.splitext(scratch_file_path)[1]
+        file_name = os.path.basename(scratch_file_path)
+        if ext == '.sdf':
+            compounds = parse.read_sdf(scratch_file_path,
+                                       mol2_file_dir=mol2_file_dir,
+                                       callback_url=self.callback_url)
+        elif ext == '.tsv':
+            compounds = parse.read_tsv(scratch_file_path,
+                                       mol2_file_dir=mol2_file_dir,
+                                       callback_url=self.callback_url)
+        else:
+            raise ValueError('Invalid input file type. Expects .tsv or .sdf')
+
+
+        print('Compounds:',compounds)
+
+        compoundset = {
+            'id': params['Input_File'],
+            'name': params['Input_File'],
+            'description': 'Compound Set produced from %s' % file_name,
+            'compounds': compounds,
+        }
+
         
         ###
         
         # Initialize CompoundSetUtils and pass inputs
-        comp = CompoundSetUtils(self.callback_url)
-        df = comp.compound_set_from_file({'workspace_id':params['workspace_id'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']})
-        exit()
+        
+        
+        #df = self.comp.compound_set_from_file({'workspace_id':params['workspace_id'],'staging_file_path':params['Input_File'],'compound_set_name':params['Input_File']})
+        
         # Read the ids and structures of the compounds
-        ids = df['id']
-        InChIes = df['structure']
+        #ids = compounds['id']
+       # InChIes = compounds['structure']
 
+
+        
+        exit()
         
         its.inchi_to_dft(ids,InChIes)
 
