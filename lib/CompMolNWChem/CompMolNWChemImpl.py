@@ -104,12 +104,16 @@ class CompMolNWChem:
 
         
         ### Test Space
+
+        print('Here I am')
+        print('Parameters',params)
+        print('Ctx:',ctx)
+        print('Config:',config)
+        cwd = os.getcwd()
+        print('CWD:',cwd)
+        exit()
         
-        scratch_file_path = self.dfu.download_staging_file(
-            {'staging_file_subdir_path': params['Input_File']}
-        ).get('copy_file_path')
         
-               
         ###
         
         # Initialize CompoundSetUtils and pass inputs
