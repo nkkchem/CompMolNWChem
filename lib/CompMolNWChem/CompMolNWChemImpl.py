@@ -97,6 +97,7 @@ class CompMolNWChem:
         #BEGIN run_CompMolNWChem
 
         # Initial Tests to Check for Proper Inputs
+
         for name in ['Input_File','calculation_type','workspace_name']:
             if name not in params:
                 raise ValueError('Parameter "' + name + '"is required but missing')
@@ -104,7 +105,7 @@ class CompMolNWChem:
             raise ValueError('Input_File must be a string')
 
         
-        ### Test Space
+        # Load the tsv file into a compound set using DataFileUtil methods
         
         scratch_file_path = self.dfu.download_staging_file({'staging_file_subdir_path':params['Input_File']}
                                        ).get('copy_file_path')
@@ -125,7 +126,7 @@ class CompMolNWChem:
         else:
             raise ValueError('Invalid input file type. Expects .tsv or .sdf')
 
-
+        #DEBUG::
         #print('Compounds:',compounds)
 
         compoundset = {
@@ -135,8 +136,7 @@ class CompMolNWChem:
             'compounds': compounds,
         }
 
-        print(compounds)
-        ###
+        # Finish Reading in Compound Set
         
         # Read ids and smiles from compound set for nwchem input
         
@@ -146,14 +146,15 @@ class CompMolNWChem:
         for d in compounds:
            ids.append(d['id'])
            smiles.append(d['smiles'])
-        print(ids)
-        print(smiles)
+        #print(ids)
+        #print(smiles)
 
-        # TODO: Initialize CompoundSetUtils and pass inputs 
-        
         # Read the ids and structures of the compounds
                        
         its.inchi_to_dft(ids,smiles)
+
+        os.system('pwd')
+        os.system('ls')
         
         length = len(ids)
         for i in range(length):
@@ -169,11 +170,31 @@ class CompMolNWChem:
 
             mul.calculate(ids[i])
 
+        # Build Report for KBase Output. Should output entire /simulation directory...
+
+        result_directory = '/simulation'
+        print('Result Directory:',result_directory)
+        
+        output_files = list()
+        result_file = os.path.join(result_directory, 'Folder.zip')
+        print(result_file)
+
+        result_dirs = os.listdir(result_directory)
+
+        print(result_dirs)
+
+        output_files.append({'path': result_file,
+                             'name': os.path.basename(result_file),
+                             'label': os.path.basename(result_file),
+                             'description': 'File generated'})
+        
+        
         report = KBaseReport(self.callback_url)
         report_info = report.create({'report':{'objects_created':[],
+                                               'file_links':output_files,
                                                'text_message': params['Input_File'],
                                                'text_message':params['calculation_type']},
-                                               'workspace_name': params['workspace_name']})
+                                               'workspace_id': params['workspace_id']})
         output = {
             'report_name': report_info['name'],
             'report_ref': report_info['ref'],
