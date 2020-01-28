@@ -11,6 +11,8 @@ import compound_parsing as com
 import pandas as pd
 import compound_parsing as parse
 import export as ex
+import re
+import zipfile
 
 from pybel import *
 from rdkit import Chem
@@ -177,32 +179,63 @@ class CompMolNWChem:
         
         output_files = list()
         result_file = os.path.join(result_directory, 'Folder.zip')
-        print(result_file)
+        print('Result File:',result_file)
 
         result_dirs = os.listdir(result_directory)
 
         print(result_dirs)
 
+        tophat2_result_dir_name = 'Folder.zip'
+        tophat2_result_dir = os.path.join(result_directory, tophat2_result_dir_name)
+       # with zipfile.ZipFile(result_file, 'w',
+       #                      zipfile.ZIP_DEFLATED,
+       #                      allowZip64=True) as zip_file:
+       #     for root, dirs, files in os.walk(result_directory):
+       #         for file in files:
+       #             if not (file.endswith('.DS_Store')):
+       #                 zip_file.write(os.path.join(root, file), file)
+
+
+       # print('New Result File:',result_file)
+
+        
+        
         output_files.append({'path': result_file,
                              'name': os.path.basename(result_file),
                              'label': os.path.basename(result_file),
                              'description': 'File generated'})
-        
-        
+
+        print('Output Files: ',output_files)
+
+        report_params = {'message': '',
+                         'workspace_id':params['workspace_id'],
+                         'file_links': output_files,
+                         'objects_created':[],
+                         'report_object_name':'Report'}
+
         report = KBaseReport(self.callback_url)
-        report_info = report.create({'report':{'objects_created':[],
-                                               'file_links':output_files,
-                                               'text_message': params['Input_File'],
-                                               'text_message':params['calculation_type']},
-                                               'workspace_id': params['workspace_id']})
-        output = {
-            'report_name': report_info['name'],
-            'report_ref': report_info['ref'],
-        }
+        output = report.create_extended_report(report_params)
+
+        print('Output:',output)
+        
+        report_output = {'report_name': output['name'], 'report_ref': output['ref']}
+
+        return report_output
+        
+#        report_info = report.create({'report':{'objects_created':[],
+#                                               'file_links':output_files,
+#                                               'text_message': params['Input_File'],
+#                                               'text_message':params['calculation_type']},
+#                                               'workspace_id': params['workspace_id']})
+#        output = {
+#            'report_name': report_info['name'],
+#            'report_ref': report_info['ref'],
+#        }
 
         
-        return [output]
-        
+#        return [output]
+
+
         #END run_CompMolNWChem
 
         # At some point might do deeper type checking...
