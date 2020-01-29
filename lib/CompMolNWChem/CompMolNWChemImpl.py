@@ -48,6 +48,33 @@ class CompMolNWChem:
     GIT_COMMIT_HASH = "0e157ea3f395c544a04c1542473be59ec39129ef"
 
     #BEGIN_CLASS_HEADER
+    def _save_to_ws_and_report(self, ws_id, source, compoundset, message=None):
+        """Save compound set to the workspace and make report"""
+        info = self.dfu.save_objects(
+            {'id': ws_id,
+             "objects": [{
+                 "type": "KBaseBiochem.CompoundSet",
+                 "data": compoundset,
+                 "name": compoundset['name']
+             }]})[0]
+        compoundset_ref = "%s/%s/%s" % (info[6], info[0], info[4])
+        if not message:
+            message = 'Imported %s as %s' % (source, info[1])
+        report_params = {
+            'objects_created': [{'ref': compoundset_ref,
+                                 'description': 'Compound Set'}],
+            'message': message,
+            'workspace_name': info[7],
+            'report_object_name': 'compound_set_creation_report'
+        }
+
+        # Construct the output to send back
+        report_client = KBaseReport(self.callback_url)
+        report_info = report_client.create_extended_report(report_params)
+        output = {'report_name': report_info['name'],
+                  'report_ref': report_info['ref'],
+                  'compoundset_ref': compoundset_ref}
+        return output
     # staging file prefix
     #STAGING_GLOBAL_FILE_PREFIX = '/data/bulk/'
     #STAGING_USER_FILE_PREFIX = '/staging/'
@@ -67,6 +94,8 @@ class CompMolNWChem:
 #        else:
 #            return os.path.join(self.STAGING_GLOBAL_FILE_PREFIX, token_user,
 #                                staging_file_subdir_path.strip('/'))
+
+
     
     #END_CLASS_HEADER
 
@@ -155,8 +184,9 @@ class CompMolNWChem:
                        
         its.inchi_to_dft(ids,smiles)
 
-        os.system('pwd')
-        os.system('ls')
+        #DEBUG::
+        #os.system('pwd')
+        #os.system('ls')
         
         length = len(ids)
         for i in range(length):
@@ -175,65 +205,46 @@ class CompMolNWChem:
         # Build Report for KBase Output. Should output entire /simulation directory...
 
         result_directory = '/simulation'
-        print('Result Directory:',result_directory)
-        
         output_files = list()
         result_file = os.path.join(result_directory, 'Folder.zip')
-        print('Result File:',result_file)
-
         result_dirs = os.listdir(result_directory)
 
-        print(result_dirs)
-
-        tophat2_result_dir_name = 'Folder.zip'
-        tophat2_result_dir = os.path.join(result_directory, tophat2_result_dir_name)
-       # with zipfile.ZipFile(result_file, 'w',
-       #                      zipfile.ZIP_DEFLATED,
-       #                      allowZip64=True) as zip_file:
-       #     for root, dirs, files in os.walk(result_directory):
-       #         for file in files:
-       #             if not (file.endswith('.DS_Store')):
-       #                 zip_file.write(os.path.join(root, file), file)
-
-
-       # print('New Result File:',result_file)
-
-        
-        
         output_files.append({'path': result_file,
                              'name': os.path.basename(result_file),
                              'label': os.path.basename(result_file),
                              'description': 'File generated'})
 
-        print('Output Files: ',output_files)
-
-        report_params = {'message': '',
-                         'workspace_id':params['workspace_id'],
-                         'file_links': output_files,
-                         'objects_created':[],
-                         'report_object_name':'Report'}
-
         report = KBaseReport(self.callback_url)
-        output = report.create_extended_report(report_params)
 
-        print('Output:',output)
-        
-        report_output = {'report_name': output['name'], 'report_ref': output['ref']}
-
-        return report_output
+        # Basic Report
         
 #        report_info = report.create({'report':{'objects_created':[],
-#                                               'file_links':output_files,
 #                                               'text_message': params['Input_File'],
 #                                               'text_message':params['calculation_type']},
-#                                               'workspace_id': params['workspace_id']})
-#        output = {
-#            'report_name': report_info['name'],
-#            'report_ref': report_info['ref'],
-#        }
+#                                     'workspace_id': params['workspace_id']})
+
+        # Extended Report
+        cwd = os.getcwd()
+        sys.path.insert(0,cwd)
+        for p in sys.path:
+            print(p)
+
+    
 
         
-#        return [output]
+        report_info = report.create_extended_report({'workspace_id' : params['workspace_id'],
+                                                     'message' : 'I am in Report',
+                                                     'file_links' : output_files})
+                                                
+
+
+        output = {
+            'report_name': report_info['name'],
+            'report_ref': report_info['ref'],
+        }
+
+        
+        return [output]
 
 
         #END run_CompMolNWChem
