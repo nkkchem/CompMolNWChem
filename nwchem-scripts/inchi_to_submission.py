@@ -84,7 +84,7 @@ def inchi_to_dft(InChI_key,InChIes):
         nw.write('end'+'\n\n')
         nw.write('driver'+'\n')
         nw.write(' maxiter 50'+'\n')
-        nw.write('xyz FXEUKVKGTKDDIQ-UWVGGRQHSA-M_geom'+'\n')
+        nw.write('xyz ' + str(key)+'_geom'+'\n')
         nw.write('end'+'\n\n')
         nw.write('set lindep:n_dep 0'+'\n\n')
         nw.write('dft'+'\n')
@@ -107,7 +107,8 @@ def inchi_to_dft(InChI_key,InChIes):
         nw.write('end'+'\n\n')
         nw.write('task dft property'+'\n')
         nw.close()
-
+        
         nwfile = str(key)+".nw"
-        os.system("mpirun -np 2 --allow-run-as-root nwchem *.nw > nwchem.out 2>error")
+        out_file = str(key) +'_nwchem.out'
+        os.system("mpirun -np 2 --allow-run-as-root nwchem *.nw > {}".format(out_file))
         os.chdir('../..')

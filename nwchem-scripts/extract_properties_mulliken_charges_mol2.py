@@ -76,7 +76,7 @@ def calculate(InChI_key):
 
     matches = []
     os.chdir(dft_dir)
-    pattern = 'nwchem.out'
+    pattern = InChI_key+'_nwchem.out'
     index=pattern.split('.')[1]
     matches.append(pattern)
     for j in matches:
@@ -91,7 +91,7 @@ def calculate(InChI_key):
 #    Convert propert included xyz file to mol2 file
 #
             xyz_all = [i for i in os.listdir('./') if i.endswith('_prop.xyz')]
-            print(xyz_all)
+            #print(xyz_all)
             for i in xyz_all:
                 ii = open(i, 'r')
                 ii.readline()

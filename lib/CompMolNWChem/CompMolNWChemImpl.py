@@ -152,7 +152,7 @@ class CompMolNWChem:
         scratch_file_path = self.dfu.download_staging_file({'staging_file_subdir_path':params['Input_File']}
                                        ).get('copy_file_path')
 
-        print('Scratch File Path: ',scratch_file_path)
+        #print('Scratch File Path: ',scratch_file_path)
 
         mol2_file_dir = None        
         ext = os.path.splitext(scratch_file_path)[1]
@@ -190,7 +190,7 @@ class CompMolNWChem:
            smiles.append(d['smiles'])
         #print(ids)
         #print(smiles)
-
+        
         # Read the ids and structures of the compounds
                        
         its.inchi_to_dft(ids,smiles)
@@ -202,7 +202,9 @@ class CompMolNWChem:
         length = len(ids)
         for i in range(length):
             os.chdir('./'+ids[i]+'/dft')
-            file1 = open('nwchem.out', 'r')
+            x = ids[i] + '_nwchem.out'
+            #print('x:',x)
+            file1 = open(x, 'r')
             nAtoms = mul.getNumberOfAtoms(file1)
             energy = mul.getInternalEnergy0K(file1)
             charge =mul.getMullikenCharge(file1,nAtoms)
