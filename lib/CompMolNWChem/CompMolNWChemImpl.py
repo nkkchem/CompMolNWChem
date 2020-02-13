@@ -14,6 +14,8 @@ import export as ex
 import re
 import zipfile
 import uuid
+import copy
+import shutil
 
 from pybel import *
 from rdkit import Chem
@@ -108,6 +110,34 @@ class CompMolNWChem:
             else:
                 raise
 
+    def _save_to_ws_and_report(self, ws_id, source, compoundset, message=None):
+        """Save compound set to the workspace and make report"""
+        info = self.dfu.save_objects(
+            {'id': ws_id,
+             "objects": [{
+                 "type": "KBaseBiochem.CompoundSet",
+                 "data": compoundset,
+                 "name": compoundset['name']
+             }]})[0]
+        compoundset_ref = "%s/%s/%s" % (info[6], info[0], info[4])
+        if not message:
+            message = 'Imported %s as %s' % (source, info[1])
+        report_params = {
+            'objects_created': [{'ref': compoundset_ref,
+                                 'description': 'Compound Set'}],
+            'message': message,
+            'workspace_name': info[7],
+            'report_object_name': 'compound_set_creation_report'
+        }
+
+        # Construct the output to send back
+        report_client = KBaseReport(self.callback_url)
+        report_info = report_client.create_extended_report(report_params)
+        output = {'report_name': report_info['name'],
+                  'report_ref': report_info['ref'],
+                  'compoundset_ref': compoundset_ref}
+        return output
+
     #END_CLASS_HEADER
 
     # config contains contents of config file in a hash or None if it couldn't
@@ -190,9 +220,9 @@ class CompMolNWChem:
            smiles.append(d['smiles'])
         #print(ids)
         #print(smiles)
-        
+
         # Read the ids and structures of the compounds
-                       
+        
         its.inchi_to_dft(ids,smiles)
 
         #DEBUG::
@@ -215,29 +245,44 @@ class CompMolNWChem:
 
             mul.calculate(ids[i])
 
-        # Build Report for KBase Output. Should output entire /simulation directory...
+        # Build KBase Output. Should output entire /simulation directory and build a CompoundSet with Mol2 Files
 
-        result_directory = '/simulation'
-        #output_files = list()
-        #result_file = os.path.join(result_directory, 'Folder.zip')
-        #result_dirs = os.listdir(result_directory)
+        result_directory = '/simulation/'
 
-        #output_files.append({'path': result_file,
-        #                     'name': os.path.basename(result_file),
-        #                     'label': os.path.basename(result_file),
-        #                     'description': 'File generated'})
+        ## Build CompoundSet with Mol2 Files... similarly to fetch_mol2_files_from_zinc (CompoundSetUtils)....
 
-        #report = KBaseReport(self.callback_url)
+        compoundset_copy = copy.deepcopy(compoundset)
 
-        # Basic Report
-        
-#        report_info = report.create({'report':{'objects_created':[],
-#                                               'text_message': params['Input_File'],
-#                                               'text_message':params['calculation_type']},
-#                                     'workspace_id': params['workspace_id']})
+        count = 0
+
+        mol2_files = []
+        comp_id_mol2_file_name_map = {}
+
+        for compound in compoundset_copy.get('compounds'):
+            if not compound.get('mol2_handle_ref'):
+                mol2_file_path = result_directory+compound.get('id')
+                SMILES = compound.get('smiles')
+
+                shutil.move(mol2_file_path,self.scratch)
+
+                os.chdir(self.scratch)
+               
+                #mol2_files.append(mol2_file_path)
+                #comp_id_mol2_file_name_map[compound['id']] = os.path.basename(mol2_file_path)
+                mol2_file_path = self.scratch + '/'+ compound.get('id')+'/dft/' + compound.get('id')+'_Mulliken.mol2'              
+                handle_id = self.dfu.file_to_shock({'file_path': mol2_file_path,
+                                                    'make_handle': True})['handle']['hid']
+                
+                compound['mol2_handle_ref'] = handle_id
+                count += 1
+
+               
+               
+        if count:
+            message = 'Successfully fetched {} Mol2 files from Scratch Directory'.format(count)
 
 
-        # Extended Report
+        ## Create Extended Report
 
         output_files = self._generate_output_file_list(result_directory)
 
@@ -255,11 +300,15 @@ class CompMolNWChem:
                                                 
 
 
-        output = {
-            'report_name': report_info['name'],
-            'report_ref': report_info['ref'],
-        }
+        #output = {
+        #    'report_name': report_info['name'],
+        #    'report_ref': report_info['ref'],
+        #}
 
+        output = self._save_to_ws_and_report(
+            params['workspace_id'],'', compoundset_copy,
+            message=message)
+            
         
         return [output]
 
