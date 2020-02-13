@@ -282,9 +282,9 @@ class CompMolNWChem:
         output_files = self._generate_output_file_list(result_directory)
 
 
-        report_params = {'message': '',
+        report_params = {'message': message,
                          'workspace_id': params['workspace_id'],
-                         'objects_created': [compoundset_copy],
+                         'objects_created': [],
                          'file_links': output_files,
                          'report_object_name': 'kb_deseq2_report_' + str(uuid.uuid4())}
 
@@ -292,7 +292,7 @@ class CompMolNWChem:
         
         report_info = report.create_extended_report(report_params)
 
-                                                
+                                               
 
 
         output = {
@@ -300,12 +300,12 @@ class CompMolNWChem:
             'report_ref': report_info['ref'],
         }
 
-        #output = self._save_to_ws_and_report(
-        #    params['workspace_id'],'', compoundset_copy,
-        #    message=message)
+        output2 = self._save_to_ws_and_report(
+            params['workspace_id'],'', compoundset_copy,
+            message=message)
             
         
-        return [output]
+        return [output,output2]
 
 
         #END run_CompMolNWChem
