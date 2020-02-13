@@ -295,14 +295,14 @@ class CompMolNWChem:
                                                 
 
 
-        #output = {
-        #    'report_name': report_info['name'],
-        #    'report_ref': report_info['ref'],
-        #}
+        output = {
+            'report_name': report_info['name'],
+            'report_ref': report_info['ref'],
+        }
 
-        output = self._save_to_ws_and_report(
-            params['workspace_id'],'', compoundset_copy,
-            message=message)
+        #output = self._save_to_ws_and_report(
+        #    params['workspace_id'],'', compoundset_copy,
+        #    message=message)
             
         
         return [output]
