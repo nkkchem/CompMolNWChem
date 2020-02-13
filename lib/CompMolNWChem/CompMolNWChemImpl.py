@@ -284,7 +284,7 @@ class CompMolNWChem:
 
         report_params = {'message': '',
                          'workspace_id': params['workspace_id'],
-                         'objects_created': compoundset_copy,
+                         'objects_created': [compoundset_copy],
                          'file_links': output_files,
                          'report_object_name': 'kb_deseq2_report_' + str(uuid.uuid4())}
 
@@ -295,14 +295,14 @@ class CompMolNWChem:
                                                 
 
 
-        #output = {
-        #    'report_name': report_info['name'],
-        #    'report_ref': report_info['ref'],
-        #}
+        output = {
+            'report_name': report_info['name'],
+            'report_ref': report_info['ref'],
+        }
 
-        output = self._save_to_ws_and_report(
-            params['workspace_id'],'', compoundset_copy,
-            message=message)
+        #output = self._save_to_ws_and_report(
+        #    params['workspace_id'],'', compoundset_copy,
+        #    message=message)
             
         
         return [output]
