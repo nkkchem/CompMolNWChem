@@ -292,9 +292,6 @@ class CompMolNWChem:
         
         report_info = report.create_extended_report(report_params)
 
-                                               
-
-
         output = {
             'report_name': report_info['name'],
             'report_ref': report_info['ref'],
