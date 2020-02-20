@@ -274,12 +274,12 @@ class CompMolNWChem:
                
                
         if count:
-            message = 'Successfully fetched {} Mol2 files from Staging Area'.format(count)
+            message = 'Successfully fetched {} Mol2 files from Scratch Directory'.format(count)
 
 
         ## Create Extended Report
 
-        output_files = self._generate_output_file_list(mol2_file_path)
+        output_files = self._generate_output_file_list(result_directory)
 
 
         report_params = {'message': message,

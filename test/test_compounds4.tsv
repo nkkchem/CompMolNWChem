@@ -1,2 +1,0 @@
-id	abbreviation	name	formula	mass	source	structure	charge	is_core	is_obsolete	linked_compound	is_cofactor	deltag	deltagerr	pka	pkb	abstract_compound	comprised_of	aliase	mol2_source
-cpd00016	pydx5p	Pyridoxal phosphate	C8H8NO6P	246	ModelSEED	"InChI=1S/C8H10NO6P/c1-5-8(11)7(3-10)6(2-9-5)4-15-16(12,13)14/h2-3,11H,4H2,1H3,(H2,12,13,14)"	-2	1	0	null	0	-272	1.6643	10:7.81;15:6.72;14:1.75	7:4.11;10:-6.04	null	null	null	user_test
