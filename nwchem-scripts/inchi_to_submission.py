@@ -24,7 +24,7 @@ from csv import DictReader
 
 # Generate dft folder from inchi string
 
-#os.system('rm -rf Z* A* K* D* F* P* W* X*')
+#os.system('rm -rf Z* A* K* D* F* P* W* X* c*')
 
 def inchi_to_dft(InChI_key,InChIes):
     os.chdir('../../../simulation')
