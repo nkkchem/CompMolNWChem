@@ -279,7 +279,7 @@ class CompMolNWChem:
 
         ## Create Extended Report
 
-        output_files = self._generate_output_file_list(mol2_file_path)
+        output_files = self._generate_output_file_list(self.scratch)
 
 
         report_params = {'message': message,
