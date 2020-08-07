@@ -1,0 +1,65 @@
+from os.path import *
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(sys.path[0],'..','scripts','inchi2mol')))
+scripts = os.path.abspath(os.path.join(sys.path[0],'..','scripts'))
+
+
+(IDS,)=glob_wildcards("{id}/initial_structure")
+
+print(IDS)
+rule all:
+     input: expand("{id}/dft/{id}_properties.dat", id=IDS)  
+
+rule inchiTo3D:
+    input: "{id}/initial_structure/{id}.inchi"
+    output: "{id}/initial_structure/{id}.xyz", "{id}/initial_structure/{id}.mol","{id}/initial_structure/{id}.png", "{id}/initial_structure/{id}.charge"
+    shell:
+        """
+        python scripts/inchiTo3D.py {wildcards.id}/initial_structure/{wildcards.id}.inchi {wildcards.id}/initial_structure/{wildcards.id}.xyz {wildcards.id}/initial_structure/{wildcards.id}.mol {wildcards.id}/initial_structure/{wildcards.id}.png {wildcards.id}/initial_structure/{wildcards.id}.charge
+        echo "check print"
+#        touch "inchiTo3D_done"
+        """
+
+#
+#  Prepare files for DFT taking geometry from MD
+#
+
+rule prepare_DFT_files:
+    input: "{id}/initial_structure/{id}.xyz"
+    output: "{id}/dft/{id}.xyz", "{id}/dft/{id}.nw", "{id}/dft/{id}.sbatch"
+    shell:
+        """
+        cp {wildcards.id}/initial_structure/{wildcards.id}.xyz {wildcards.id}/dft/{wildcards.id}.xyz
+        cp {wildcards.id}/initial_structure/{wildcards.id}.charge {wildcards.id}/dft/{wildcards.id}.charge
+        cp dft_templates/template_dft.nw {wildcards.id}/dft/{wildcards.id}.nw
+        cp dft_templates/template_dft.sbatch {wildcards.id}/dft/{wildcards.id}.sbatch
+        python scripts/create_nw_files.py {wildcards.id} 
+        """
+#
+#  submit dft calculations
+#
+
+rule submit_DFT:
+    input: "{id}/dft/{id}.nw", "{id}/dft/{id}.sbatch", "{id}/dft/{id}.xyz"
+    output:"{id}/dft/{id}.out"
+    shell:
+        """
+        #sbatch  {wildcards.id}/dft/{wildcards.id}.sbatch
+	nwchem {wildcards.id}/dft/{wildcards.id}.nw >& {wildcards.id}/dft/{wildcards.id}.out &
+        """   
+
+#
+#  Extract DFT properties
+#
+
+rule extract_DFT_properties:
+    input: "{id}/dft/{id}.out"
+    output:"{id}/dft/{id}_properties.dat"
+    shell:
+        """
+         python scripts/extract_properties.py {wildcards.id}
+        """
+
+
+

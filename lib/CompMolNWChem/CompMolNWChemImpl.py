@@ -22,6 +22,7 @@ from rdkit import Chem
 from rdkit.Chem import AllChem
 from rdkit.Chem import Descriptors
 from csv import DictReader
+from snakemake import snakemake
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.CompoundSetUtilsClient import CompoundSetUtils
@@ -48,7 +49,7 @@ class CompMolNWChem:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/nkkchem/CompMolNWChem.git"
-    GIT_COMMIT_HASH = "ccbbb1a1e3b1812da193a9c9bf6cc487fef78b21"
+    GIT_COMMIT_HASH = "496b69853840cfaacbd146fce50466e73701bcc7"
 
     #BEGIN_CLASS_HEADER
     def _generate_output_file_list(self, result_directory):
@@ -209,41 +210,74 @@ class CompMolNWChem:
         }
 
         # Finish Reading in Compound Set
-        
+
         # Read ids and smiles from compound set for nwchem input
         
         ids = []
         smiles = []
 
-        for d in compounds:
-           ids.append(d['id'])
-           smiles.append(d['smiles'])
+        #for d in compounds:
+        #   ids.append(d['id'])
+        #   smiles.append(d['smiles'])
         #print(ids)
         #print(smiles)
+        
+        linecount = 0
+        for row in compounds:
+            if linecount == 0:
+                InChIKey = row.index("InChI-Key")
+                InChI = row.index("InChI")
+                linecount+=1
+            else:
+                print(row)
+                inchikey_str=row[InChIKey].split('=')[1]
+                print('inchikey string ', inchikey_str)
 
+                moldir = inchikey_str
+                if not os.path.exists(moldir):
+                    os.mkdir(moldir)
+
+                initial_structure_dir = moldir + '/initial_structure'
+                if not os.path.exists(initial_structure_dir):
+                    os.mkdir(initial_structure_dir)
+
+                md_structure_dir = moldir + '/md'
+                if not os.path.exists(md_structure_dir):
+                    os.mkdir(md_structure_dir)
+
+                dft_structure_dir = moldir + '/dft'
+                if not os.path.exists(dft_structure_dir):
+                    os.mkdir(dft_structure_dir)
+
+                inchifile_str = initial_structure_dir + '/' + inchikey_str + '.inchi'
+                with open(inchifile_str, 'w+') as f:
+                    f.write(row[InChi])
+
+        os.system('snakemake -p --cores 2 --snakefile snakemake/final_pipeline.snakemake -w 300')
+        
         # Read the ids and structures of the compounds
         
-        its.inchi_to_dft(ids,smiles)
+        #its.inchi_to_dft(ids,smiles)
 
         #DEBUG::
         #os.system('pwd')
         #os.system('ls')
         
-        length = len(ids)
-        for i in range(length):
-            os.chdir('./'+ids[i]+'/dft')
-            x = ids[i] + '_nwchem.out'
-            #print('x:',x)
-            file1 = open(x, 'r')
-            nAtoms = mul.getNumberOfAtoms(file1)
-            energy = mul.getInternalEnergy0K(file1)
-            charge =mul.getMullikenCharge(file1,nAtoms)
-            file1.close()
+        #length = len(ids)
+        #for i in range(length):
+        #    os.chdir('./'+ids[i]+'/dft')
+        #    x = ids[i] + '_nwchem.out'
+        #    #print('x:',x)
+        #    file1 = open(x, 'r')
+        #    nAtoms = mul.getNumberOfAtoms(file1)
+        #    energy = mul.getInternalEnergy0K(file1)
+        #    charge =mul.getMullikenCharge(file1,nAtoms)
+        #    file1.close()
            
-            mul.nAtoms = nAtoms
-            mul.E0K = energy
+        #    mul.nAtoms = nAtoms
+        #    mul.E0K = energy
 
-            mul.calculate(ids[i])
+        #    mul.calculate(ids[i])
 
         # Build KBase Output. Should output entire /simulation directory and build a CompoundSet with Mol2 Files
 

@@ -6,7 +6,7 @@ MAINTAINER nkkchem@gmail.com
 # install line here, a git checkout to download code, or run any other
 # installation scripts.
 
-ENV     NWCHEM_TOP="/codes/nwchem-6.8.1"  
+ENV     NWCHEM_TOP="/codes/nwchem-7.0.0"  
 ENV     NWCHEM_DATA=${NWCHEM_TOP}/data 
 
 ENV     USE_MPI=y \
@@ -14,6 +14,7 @@ ENV     USE_MPI=y \
         USE_MPIF4=y \
         NWCHEM_TARGET=LINUX64 \
         BLASOPT="-lopenblas -lpthread -lrt" \
+	LAPACK_LIB="-lopenblas -lpthread -lrt" \
         BLAS_SIZE=4 \
         USE_64TO32=y \
         NWCHEM_MODULES="smallqm" \
@@ -38,9 +39,9 @@ RUN     apt-get update \
         &&  apt-get clean \
         && mkdir codes \
         && cd codes \
-        && wget https://github.com/nwchemgit/nwchem/releases/download/6.8.1-release/nwchem-6.8.1-release.revision-v6.8-133-ge032219-srconly.2018-06-14.tar.bz2 \
-        && tar -vxjf nwchem-6.8.1-release.revision-v6.8-133-ge032219-srconly.2018-06-14.tar.bz2 \
-        && rm nwchem-6.8.1-release.revision-v6.8-133-ge032219-srconly.2018-06-14.tar.bz2 \
+        && wget https://github.com/nwchemgit/nwchem/releases/download/v7.0.0-release/nwchem-7.0.0-release.revision-2c9a1c7c-src.2020-02-26.tar.bz2 \
+	&& tar -vxjf nwchem-7.0.0-release.revision-2c9a1c7c-src.2020-02-26.tar.bz2 \
+        && rm nwchem-7.0.0-release.revision-2c9a1c7c-src.2020-02-26.tar.bz2 \
         && cd ${NWCHEM_TOP}/src \
         && make nwchem_config && make 64_to_32  && make -j3 && \
         mkdir ${NWCHEM_DATA} && \
@@ -55,20 +56,29 @@ RUN     apt-get update \
         mv ${NWCHEM_TOP}/src/data/charmm_x ${NWCHEM_DATA} && \
         rm -rf $NWCHEM_TOP/src && \
         rm -rf $NWCHEM_TOP/lib 
+
 RUN     apt-get -y remove  ssh tcsh  gfortran  python-dev libopenmpi-dev && apt-get clean
-RUN	conda install -c conda-forge openbabel rdkit=2018.09.01
-RUN     pip install pybel
+RUN     conda update -n base -c defaults conda
+RUN	pip install snakemake
+#RUN     conda install -c conda-forge -c bioconda snakemake
+RUN     conda install -c rdkit rdkit
+RUN     conda install -c openbabel openbabel
 
 ENV     NWCHEM_SIM_DIR="/simulation"
 ENV     NWCHEM_BIN=${NWCHEM_TOP}/bin/LINUX64
 ENV     NWCHEM_TEMPLATES_DIR=${NWCHEM_DATA}/templates
 ENV     PATH="${NWCHEM_BIN}:$PATH"
 
-COPY ./nwchem-scripts/inchi_to_submission_scan.py ${NWCHEM_BIN}/
-COPY ./nwchem-scripts/extract_properties_mulliken_charges_mol2.py ${NWCHEM_BIN}/
-COPY ./nwchem-scripts/compound_parsing.py ${NWCHEM_BIN}/
+#COPY ./nwchem-scripts/inchi_to_submission_scan.py ${NWCHEM_BIN}/
+#COPY ./nwchem-scripts/extract_properties_mulliken_charges_mol2.py ${NWCHEM_BIN}/
+#COPY ./nwchem-scripts/compound_parsing.py ${NWCHEM_BIN}/
 COPY ./nwchem-scripts/export.py ${NWCHEM_BIN}/
-#COPY ./nwchem-scripts/CompoundSetUtil.py ${NWCHEM_BIN}/
+COPY ./nwchem-scripts/CompoundSetUtil.py ${NWCHEM_BIN}/
+COPY ./nwchem-scripts/extract_properties.py ${NWCHEM_BIN}/
+COPY ./nwchem-scripts/inchiTo3D.py ${NWCHEM_BIN}/
+COPY ./nwchem-scripts/dft-cme.py ${NWCHEM_BIN}/
+COPY ./nwchem-scripts/create_nw_files.py ${NWCHEM_BIN}
+COPY ./snakemake-scripts/final_pipeline.snakemake ${NWCHEM_BIN}
 
 RUN   mkdir ${NWCHEM_SIM_DIR}
 

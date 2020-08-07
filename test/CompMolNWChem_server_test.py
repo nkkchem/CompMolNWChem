@@ -95,8 +95,8 @@ class CompMolNWChemTest(unittest.TestCase):
 
 #    def test_your_method(self):
 
-#        ret = self.serviceImpl.run_CompMolNWChem(self.ctx, {'workspace_name': self.wsName,'workspace_id':self.getWsId(),
-#                                                                 'Input_File':'test_compounds.tsv','calculation_type':'energy'})
+ #       ret = self.serviceImpl.run_CompMolNWChem(self.ctx, {'workspace_name': self.wsName,'workspace_id':self.getWsId(),
+  #                                                               'Input_File':'test_compounds.tsv','calculation_type':'energy'})
 
-#        print("Output")
-#        print (ret)
+   #     print("Output")
+    #    print (ret)

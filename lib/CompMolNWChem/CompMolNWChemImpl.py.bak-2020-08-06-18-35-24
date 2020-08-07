@@ -48,7 +48,7 @@ class CompMolNWChem:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/nkkchem/CompMolNWChem.git"
-    GIT_COMMIT_HASH = "0e157ea3f395c544a04c1542473be59ec39129ef"
+    GIT_COMMIT_HASH = "496b69853840cfaacbd146fce50466e73701bcc7"
 
     #BEGIN_CLASS_HEADER
     def _generate_output_file_list(self, result_directory):
