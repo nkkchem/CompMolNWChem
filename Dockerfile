@@ -79,7 +79,7 @@ COPY ./nwchem-scripts/inchiTo3D.py ${NWCHEM_BIN}/
 COPY ./nwchem-scripts/dft-cme.py ${NWCHEM_BIN}/
 COPY ./nwchem-scripts/create_nw_files.py ${NWCHEM_BIN}
 COPY ./snakemake-scripts/final_pipeline.snakemake ${NWCHEM_BIN}
-
+COPY ./snakemake-scripts/cme.py ${NWCHEM_BIN}
 RUN   mkdir ${NWCHEM_SIM_DIR}
 
 # -----------------------------------------
