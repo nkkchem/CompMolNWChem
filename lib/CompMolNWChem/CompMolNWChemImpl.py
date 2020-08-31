@@ -263,7 +263,7 @@ class CompMolNWChem:
        
         from snakemake import snakemake
 
-        inchilist = params['Input_File']
+        inchilist = scratch_file_path
         
         with open(inchilist,'r') as f:
             if 'inchi.csv' in inchilist:
