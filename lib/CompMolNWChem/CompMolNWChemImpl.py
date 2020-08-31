@@ -338,10 +338,13 @@ class CompMolNWChem:
         
         output_files = self._generate_output_file_list(result_directory)
 
-
-        report_params = {'workspace_id': params['workspace_id'],
-                         'objects_created': [],
-                         'report_object_name': 'kb_deseq2_report_' + str(uuid.uuid4())}
+        
+        report_params = {
+            'message':'',
+            'workspace_id': params['workspace_id'],
+            'objects_created': [],
+            'file_links':output_files,
+            'report_object_name': 'kb_deseq2_report_' + str(uuid.uuid4())}
 
         report = KBaseReport(self.callback_url)
         
