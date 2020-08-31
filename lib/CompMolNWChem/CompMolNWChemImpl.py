@@ -22,7 +22,7 @@ from rdkit import Chem
 from rdkit.Chem import AllChem
 from rdkit.Chem import Descriptors
 from csv import DictReader
-from snakemake import snakemake
+#from snakemake import snakemake
 from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.DataFileUtilClient import DataFileUtil
 from installed_clients.CompoundSetUtilsClient import CompoundSetUtils
