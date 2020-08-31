@@ -308,30 +308,30 @@ class CompMolNWChem:
 
         ## Build CompoundSet with Mol2 Files... similarly to fetch_mol2_files_from_zinc (CompoundSetUtils)....
 
-        compoundset_copy = copy.deepcopy(compoundset)
+#        compoundset_copy = copy.deepcopy(compoundset)
 
-        count = 0
+#        count = 0
 
-        for compound in compoundset_copy.get('compounds'):
-            if not compound.get('mol2_handle_ref'):
-                mol2_file_path = result_directory+compound.get('id')
-                SMILES = compound.get('smiles')
+#        for compound in compoundset_copy.get('compounds'):
+#            if not compound.get('mol2_handle_ref'):
+#                mol2_file_path = result_directory+compound.get('id')
+#                SMILES = compound.get('smiles')
 
-                shutil.move(mol2_file_path,self.scratch)
+#                shutil.move(mol2_file_path,self.scratch)
 
-                os.chdir(self.scratch)
+#                os.chdir(self.scratch)
                
-                mol2_file_path = self.scratch + '/'+ compound.get('id')+'/dft/' + compound.get('id')+'_Mulliken.mol2'              
-                handle_id = self.dfu.file_to_shock({'file_path': mol2_file_path,
-                                                    'make_handle': True})['handle']['hid']
-                print('Handle ID:',handle_id)
-                compound['mol2_handle_ref'] = handle_id
-                count += 1
+#                mol2_file_path = self.scratch + '/'+ compound.get('id')+'/dft/' + compound.get('id')+'_Mulliken.mol2'              
+#                handle_id = self.dfu.file_to_shock({'file_path': mol2_file_path,
+#                                                    'make_handle': True})['handle']['hid']
+#                print('Handle ID:',handle_id)
+#                compound['mol2_handle_ref'] = handle_id
+#                count += 1
 
                
                
-        if count:
-            message = 'Successfully fetched {} Mol2 files from Staging Path'.format(count)
+#        if count:
+#            message = 'Successfully fetched {} Mol2 files from Staging Path'.format(count)
 
 
         ## Create Extended Report
@@ -353,13 +353,13 @@ class CompMolNWChem:
             'report_ref': report_info['ref'],
         }
 
-        output2 = self._save_to_ws_and_report(
-            params['workspace_id'],'', compoundset_copy,
-            message=message)
+ #       output2 = self._save_to_ws_and_report(
+ #           params['workspace_id'],'', compoundset_copy,
+ #           message=message)
             
         
-        return [output,output2]
-
+ #       return [output,output2]
+         return [output]
 
         #END run_CompMolNWChem
 
