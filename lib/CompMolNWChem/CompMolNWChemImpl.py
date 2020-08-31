@@ -339,8 +339,7 @@ class CompMolNWChem:
         output_files = self._generate_output_file_list(self.scratch)
 
 
-        report_params = {'message': message,
-                         'workspace_id': params['workspace_id'],
+        report_params = {'workspace_id': params['workspace_id'],
                          'objects_created': [],
                          'report_object_name': 'kb_deseq2_report_' + str(uuid.uuid4())}
 
