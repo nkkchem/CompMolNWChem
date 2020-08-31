@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 #BEGIN_HEADER
+
 import logging
 import os
 import sys
@@ -18,13 +19,15 @@ import copy
 import shutil
 import argparse
 
+os.system('pip install snakemake')
+
 from pybel import *
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from rdkit.Chem import Descriptors
 from csv import DictReader
-from mulitprocessing import cpu_count
-from os.path imort *
+#from mulitprocessing import cpu_count
+from os.path import *
 from pkg_resources import resource_filename
 from cme import *
 from snakemake import snakemake
@@ -296,6 +299,10 @@ class CompMolNWChem:
 #            mul.calculate(ids[i])
 
         csv2inchi(params['Input_File'])
+        print('Here')
+
+        from snakemake import snakemake
+
         os.system('snakemake -p --cores 2 --snakefile snakemake/final_pipeline.snakemake -w 300')
 
         # Build KBase Output. Should output entire /simulation directory and build a CompoundSet with Mol2 Files
