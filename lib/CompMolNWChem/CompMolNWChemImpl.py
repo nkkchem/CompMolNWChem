@@ -220,11 +220,11 @@ class CompMolNWChem:
         ids = []
         smiles = []
 
-        #for d in compounds:
-        #   ids.append(d['id'])
-        #   smiles.append(d['smiles'])
-        #print(ids)
-        #print(smiles)
+        for d in compounds:
+           ids.append(d['id'])
+           smiles.append(d['smiles'])
+        print(ids)
+        print(smiles)
         
         linecount = 0
         for row in compounds:
@@ -257,31 +257,31 @@ class CompMolNWChem:
                 with open(inchifile_str, 'w+') as f:
                     f.write(row[InChi])
 
-        os.system('snakemake -p --cores 2 --snakefile snakemake/final_pipeline.snakemake -w 300')
+        #os.system('snakemake -p --cores 2 --snakefile snakemake/final_pipeline.snakemake -w 300')
         
         # Read the ids and structures of the compounds
         
-        #its.inchi_to_dft(ids,smiles)
+        its.inchi_to_dft(ids,smiles)
 
         #DEBUG::
         #os.system('pwd')
         #os.system('ls')
         
-        #length = len(ids)
-        #for i in range(length):
-        #    os.chdir('./'+ids[i]+'/dft')
-        #    x = ids[i] + '_nwchem.out'
-        #    #print('x:',x)
-        #    file1 = open(x, 'r')
-        #    nAtoms = mul.getNumberOfAtoms(file1)
-        #    energy = mul.getInternalEnergy0K(file1)
-        #    charge =mul.getMullikenCharge(file1,nAtoms)
-        #    file1.close()
+        length = len(ids)
+        for i in range(length):
+            os.chdir('./'+ids[i]+'/dft')
+            x = ids[i] + '_nwchem.out'
+            #print('x:',x)
+            file1 = open(x, 'r')
+            nAtoms = mul.getNumberOfAtoms(file1)
+            energy = mul.getInternalEnergy0K(file1)
+            charge =mul.getMullikenCharge(file1,nAtoms)
+            file1.close()
            
-        #    mul.nAtoms = nAtoms
-        #    mul.E0K = energy
+            mul.nAtoms = nAtoms
+            mul.E0K = energy
 
-        #    mul.calculate(ids[i])
+            mul.calculate(ids[i])
 
         # Build KBase Output. Should output entire /simulation directory and build a CompoundSet with Mol2 Files
 
@@ -317,18 +317,12 @@ class CompMolNWChem:
 
         ## Create Extended Report
         
-        file_dir = {
-            'path': result_directory,
-            'description': 'Output files'
-        }
-
         output_files = self._generate_output_file_list(self.scratch)
 
 
         report_params = {'message': message,
                          'workspace_id': params['workspace_id'],
                          'objects_created': [],
-                         'file_links': [file_dir],
                          'report_object_name': 'kb_deseq2_report_' + str(uuid.uuid4())}
 
         report = KBaseReport(self.callback_url)
