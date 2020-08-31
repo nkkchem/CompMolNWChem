@@ -364,11 +364,11 @@ class CompMolNWChem:
         #END run_CompMolNWChem
 
         # At some point might do deeper type checking...
-        if not isinstance(output, dict):
-            raise ValueError('Method run_CompMolNWChem return value ' +
-                             'output is not type dict as required.')
+    if not isinstance(output, dict):
+        raise ValueError('Method run_CompMolNWChem return value ' +
+                         'output is not type dict as required.')
         # return the results
-        return [output]
+    return [output]
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
