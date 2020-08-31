@@ -362,7 +362,7 @@ class CompMolNWChem:
     return [output]
 
         #END run_CompMolNWChem
-
+        
     def status(self, ctx):
         #BEGIN_STATUS
         returnVal = {'state': "OK",
