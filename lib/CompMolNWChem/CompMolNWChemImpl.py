@@ -336,7 +336,7 @@ class CompMolNWChem:
 
         ## Create Extended Report
         
-        output_files = self._generate_output_file_list(self.scratch)
+        output_files = self._generate_output_file_list(result_directory)
 
 
         report_params = {'workspace_id': params['workspace_id'],
