@@ -150,7 +150,7 @@ class CompMolNWChem:
     def _csv2inchi(inchilist):
 
         with open(inchilist,'r') as f:
-            if 'inchi.csv' in inchilist:
+            if 'test.csv' in inchilist:
                 reader = csv.reader(f,delimiter=(','))
 
             lineCount = 0
@@ -298,7 +298,7 @@ class CompMolNWChem:
 
 #            mul.calculate(ids[i])
 
-        self._csv2inchi("inchi.csv")
+        self._csv2inchi("test.csv")
         print('Here')
 
         from snakemake import snakemake
