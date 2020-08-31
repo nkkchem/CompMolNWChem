@@ -298,7 +298,7 @@ class CompMolNWChem:
 
 #            mul.calculate(ids[i])
 
-        self._csv2inchi(inchi.csv)
+        self._csv2inchi("inchi.csv")
         print('Here')
 
         from snakemake import snakemake
