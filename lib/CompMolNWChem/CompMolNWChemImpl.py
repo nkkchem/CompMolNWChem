@@ -353,13 +353,7 @@ class CompMolNWChem:
             'report_ref': report_info['ref'],
         }
 
-    #    output2 = self._save_to_ws_and_report(
-    #        params['workspace_id'],'', compoundset_copy,
-    #        message=message)
-    #        
-    #    
-    #    return [output,output2]
-    return [output]
+        return [output]
 
         #END run_CompMolNWChem
         
