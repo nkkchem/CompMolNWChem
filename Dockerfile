@@ -60,7 +60,6 @@ RUN     apt-get update \
 RUN     apt-get -y remove  ssh tcsh  gfortran  python-dev libopenmpi-dev && apt-get clean
 RUN     conda update -n base -c defaults conda
 RUN	pip install snakemake
-RUN	pip install snakemake
 #RUN     conda install -c conda-forge -c bioconda snakemake
 RUN     conda install -c rdkit rdkit
 RUN     conda install -c openbabel openbabel
@@ -70,8 +69,8 @@ ENV     NWCHEM_BIN=${NWCHEM_TOP}/bin/LINUX64
 ENV     NWCHEM_TEMPLATES_DIR=${NWCHEM_DATA}/templates
 ENV     PATH="${NWCHEM_BIN}:$PATH"
 
-#COPY ./nwchem-scripts/inchi_to_submission.py ${NWCHEM_BIN}/
-#COPY ./nwchem-scripts/extract_properties_mulliken_charges_mol2.py ${NWCHEM_BIN}/
+COPY ./nwchem-scripts/inchi_to_submission.py ${NWCHEM_BIN}/
+COPY ./nwchem-scripts/extract_properties_mulliken_charges_mol2.py ${NWCHEM_BIN}/
 COPY ./nwchem-scripts/compound_parsing.py ${NWCHEM_BIN}/
 COPY ./nwchem-scripts/export.py ${NWCHEM_BIN}/
 COPY ./nwchem-scripts/CompoundSetUtil.py ${NWCHEM_BIN}/
