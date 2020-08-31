@@ -242,22 +242,22 @@ class CompMolNWChem:
             compounds = parse.read_tsv(scratch_file_path,
                                        mol2_file_dir=mol2_file_dir,
                                        callback_url=self.callback_url)
-        elif ext == '.csv':
-            compounds = parse.read_csv(scratch_file_path,
-                                       mol2_file_dir=mol2_file_dir,
-                                       callback_url=self.callback_url)
-        else:
-            raise ValueError('Invalid input file type. Expects .tsv or .sdf')
+        #elif ext == '.csv':
+        #    compounds = parse.read_csv(scratch_file_path,
+        #                               mol2_file_dir=mol2_file_dir,
+        #                               callback_url=self.callback_url)
+        #else:
+        #    raise ValueError('Invalid input file type. Expects .tsv or .sdf')
 
         #DEBUG::
         #print('Compounds:',compounds)
 
-        compoundset = {
-            'id': params['Input_File'],
-            'name': params['Input_File'],
-            'description': 'Compound Set produced from %s' % file_name,
-            'compounds': compounds,
-        }
+#        compoundset = {
+#            'id': params['Input_File'],
+#            'name': params['Input_File'],
+#            'description': 'Compound Set produced from %s' % file_name,
+#            'compounds': compounds,
+#        }
 
         # Finish Reading in Compound Set
 
