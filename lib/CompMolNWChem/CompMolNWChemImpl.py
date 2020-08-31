@@ -266,8 +266,8 @@ class CompMolNWChem:
         inchilist = scratch_file_path
         
         with open(inchilist,'r') as f:
-            if 'inchi.csv' in inchilist:
-                reader = csv.reader(f,delimiter=(','))
+#            if 'inchi.csv' in inchilist:
+            reader = csv.reader(f,delimiter=(','))
 
             lineCount = 0
             for row in reader:
