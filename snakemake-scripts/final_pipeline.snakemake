@@ -16,7 +16,7 @@ rule inchiTo3D:
     output: "{id}/initial_structure/{id}.xyz", "{id}/initial_structure/{id}.mol","{id}/initial_structure/{id}.png", "{id}/initial_structure/{id}.charge"
     shell:
         """
-        python scripts/inchiTo3D.py {wildcards.id}/initial_structure/{wildcards.id}.inchi {wildcards.id}/initial_structure/{wildcards.id}.xyz {wildcards.id}/initial_structure/{wildcards.id}.mol {wildcards.id}/initial_structure/{wildcards.id}.png {wildcards.id}/initial_structure/{wildcards.id}.charge
+        python nwchem-scripts/inchiTo3D.py {wildcards.id}/initial_structure/{wildcards.id}.inchi {wildcards.id}/initial_structure/{wildcards.id}.xyz {wildcards.id}/initial_structure/{wildcards.id}.mol {wildcards.id}/initial_structure/{wildcards.id}.png {wildcards.id}/initial_structure/{wildcards.id}.charge
         echo "check print"
 #        touch "inchiTo3D_done"
         """
@@ -34,7 +34,7 @@ rule prepare_DFT_files:
         cp {wildcards.id}/initial_structure/{wildcards.id}.charge {wildcards.id}/dft/{wildcards.id}.charge
         cp dft_templates/template_dft.nw {wildcards.id}/dft/{wildcards.id}.nw
         cp dft_templates/template_dft.sbatch {wildcards.id}/dft/{wildcards.id}.sbatch
-        python scripts/create_nw_files.py {wildcards.id} 
+        python nwchem-scripts/create_nw_files.py {wildcards.id} 
         """
 #
 #  submit dft calculations
@@ -58,7 +58,7 @@ rule extract_DFT_properties:
     output:"{id}/dft/{id}_properties.dat"
     shell:
         """
-         python scripts/extract_properties.py {wildcards.id}
+         python nwchem-scripts/extract_properties.py {wildcards.id}
         """
 
 
