@@ -147,7 +147,7 @@ class CompMolNWChem:
                   'compoundset_ref': compoundset_ref}
         return output
 
-    def csv2inchi(inchilist):
+    def _csv2inchi(inchilist):
 
         with open(inchilist,'r') as f:
             if 'inchi.csv' in inchilist:
@@ -298,7 +298,7 @@ class CompMolNWChem:
 
 #            mul.calculate(ids[i])
 
-        csv2inchi(params['Input_File'])
+        self._csv2inchi(params['Input_File'])
         print('Here')
 
         from snakemake import snakemake
