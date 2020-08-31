@@ -5,8 +5,8 @@ import os
 import sys
 import subprocess as _subprocess
 import csv
-import inchi_to_submission as its
-import extract_properties_mulliken_charges_mol2 as mul
+#import inchi_to_submission as its
+#import extract_properties_mulliken_charges_mol2 as mul
 import compound_parsing as com
 import pandas as pd
 import compound_parsing as parse
@@ -316,6 +316,11 @@ class CompMolNWChem:
 
 
         ## Create Extended Report
+        
+        file_dir = {
+            'path': result_directory,
+            'description': 'Output files'
+        }
 
         output_files = self._generate_output_file_list(self.scratch)
 
@@ -323,7 +328,7 @@ class CompMolNWChem:
         report_params = {'message': message,
                          'workspace_id': params['workspace_id'],
                          'objects_created': [],
-                         'file_links': output_files,
+                         'file_links': [file_dir],
                          'report_object_name': 'kb_deseq2_report_' + str(uuid.uuid4())}
 
         report = KBaseReport(self.callback_url)
