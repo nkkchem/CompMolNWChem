@@ -269,19 +269,19 @@ class CompMolNWChem:
             if 'inchi.csv' in inchilist:
                 reader = csv.reader(f,delimiter=(','))
 
-	    lineCount = 0
-	    for row in reader:
+            lineCount = 0
+            for row in reader:
                 if lineCount == 0:
-		    InChIKey = row.index("InChI-Key")
-		    InChI = row.index("InChI")
-		    lineCount+=1
+                    InChIKey = row.index("InChI-Key")
+                    InChI = row.index("InChI")
+                    lineCount+=1
                 else:
                     print(row)
-		    inchikey_str=row[InChIKey].split('=')[1]
-		    print('inchikey string ', inchikey_str)
-                        
-		    moldir = inchikey_str
-		    if not os.path.exists(moldir):
+                    inchikey_str=row[InChIKey].split('=')[1]
+                    print('inchikey string ', inchikey_str)
+
+                    moldir = inchikey_str
+                    if not os.path.exists(moldir):
                         os.mkdir(moldir)
 
                         
