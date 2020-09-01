@@ -299,7 +299,7 @@ class CompMolNWChem:
                     inchifile_str = initial_structure_dir + '/' + inchikey_str + '.inchi'
                     with open(inchifile_str,'w+') as f:
                         f.write(row[InChI])
-        os.system('print pwd')
+        os.system('pwd')
         #os.system('snakemake -p --cores 2 --snakefile snakemake-scripts/final_pipeline.snakemake -w 300')
 
         # Build KBase Output. Should output entire /simulation directory and build a CompoundSet with Mol2 Files
