@@ -304,7 +304,7 @@ class CompMolNWChem:
 
         # Build KBase Output. Should output entire /simulation directory and build a CompoundSet with Mol2 Files
 
-        result_directory = '/module'
+        result_directory = moldir
 
 
         ## Build CompoundSet with Mol2 Files... similarly to fetch_mol2_files_from_zinc (CompoundSetUtils)....
