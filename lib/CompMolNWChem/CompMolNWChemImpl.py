@@ -304,7 +304,7 @@ class CompMolNWChem:
 
         # Build KBase Output. Should output entire /simulation directory and build a CompoundSet with Mol2 Files
 
-        result_directory = moldir
+        result_directory = '~/../simulation'
 
 
         ## Build CompoundSet with Mol2 Files... similarly to fetch_mol2_files_from_zinc (CompoundSetUtils)....
@@ -338,7 +338,7 @@ class CompMolNWChem:
         ## Create Extended Report
         
         output_files = self._generate_output_file_list(result_directory)
-
+        #output_files = 
         
         report_params = {
             'message':'',
