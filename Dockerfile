@@ -95,5 +95,5 @@ WORKDIR /kb/module
 
 RUN make all
 
-#ENTRYPOINT [ "./scripts/entrypoint.sh" ]
-#CMD [ ]
+ENTRYPOINT [ "./scripts/entrypoint.sh" ]
+CMD [ ]

@@ -4,7 +4,6 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(sys.path[0],'..','nwchem-scripts','inchi2mol')))
 scripts = os.path.abspath(os.path.join(sys.path[0],'..','nwchem-scripts'))
 
-
 (IDS,)=glob_wildcards("{id}/initial_structure")
 
 print(IDS)
