@@ -11,11 +11,11 @@ rule all:
      input: expand("{id}/dft/{id}_properties.dat", id=IDS)  
 
 rule inchiTo3D:
-    input: "{id}/initial_structure/{id}.inchi"
+    input: "{id}/initial_structure/{id}.smiles"
     output: "{id}/initial_structure/{id}.xyz", "{id}/initial_structure/{id}.mol","{id}/initial_structure/{id}.png", "{id}/initial_structure/{id}.charge"
     shell:
         """
-        python nwchem-scripts/inchiTo3D.py {wildcards.id}/initial_structure/{wildcards.id}.inchi {wildcards.id}/initial_structure/{wildcards.id}.xyz {wildcards.id}/initial_structure/{wildcards.id}.mol {wildcards.id}/initial_structure/{wildcards.id}.png {wildcards.id}/initial_structure/{wildcards.id}.charge
+        python nwchem-scripts/inchiTo3D.py {wildcards.id}/initial_structure/{wildcards.id}.smiles {wildcards.id}/initial_structure/{wildcards.id}.xyz {wildcards.id}/initial_structure/{wildcards.id}.mol {wildcards.id}/initial_structure/{wildcards.id}.png {wildcards.id}/initial_structure/{wildcards.id}.charge
         echo "check print"
 #        touch "inchiTo3D_done"
         """
@@ -59,6 +59,3 @@ rule extract_DFT_properties:
         """
          python nwchem-scripts/extract_properties.py {wildcards.id}
         """
-
-
-

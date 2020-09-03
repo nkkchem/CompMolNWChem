@@ -7,7 +7,6 @@ permanent_dir PATH
 #scratch_dir /scratch
 
 echo
-print low
 
 charge CHARGE
 geometry noautoz noautosym
@@ -28,7 +27,8 @@ end
 set lindep:n_dep 0
 
 dft
-  maxiter 500
+  mult multiplicity
+  maxiter 200
   xc b3lyp
   mulliken
   print "mulliken ao"
@@ -45,6 +45,7 @@ end
 set "ao basis" "large"
 
 dft
+  mult multiplicity
   maxiter 250
   xc scan
   grid xfine

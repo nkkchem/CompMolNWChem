@@ -1,36 +1,36 @@
-title "*"
-start *
+title "INCHIKEY"
+start INCHIKEY
 
 memory global 1600 mb heap 100 mb stack 600 mb
 
-permanent_dir /dtemp/emslc50597/Comp_chem_dG/workflow/dft//*
-scratch_dir /scratch
+permanent_dir PATH
+#scratch_dir /scratch
 
 echo
-print low
 
-charge -
+charge CHARGE
 geometry noautoz noautosym
- load /dtemp/emslc50597/Comp_chem_dG/workflow/dft//*/*.xyz
+ load PATH/INCHIKEY.xyz
 end
 
-basis
- * library 6-31G*
+basis "small"
+* library 6-31G*
 end
+
+set "ao basis" "small"
 
 driver
  maxiter 500
- xyz *_geom
+ xyz INCHIKEY_geom
 end
 
 set lindep:n_dep 0
 
 dft
-  maxiter 500
-  xc b3lyp
   odft
   mult 2
-  disp vdw 3
+  maxiter 200
+  xc b3lyp
   mulliken
   print "mulliken ao"
   print "final vectors analysis"
@@ -39,13 +39,38 @@ end
 task dft optimize ignore
 task dft freq
 
+basis "large" spherical
+* library 6-311++G**
+end
+
+set "ao basis" "large"
+
+dft
+  odft
+  mult 2
+  maxiter 250
+  xc scan
+  grid xfine
+  CONVERGENCE energy 1e-6
+  CONVERGENCE density 5e-4
+  CONVERGENCE gradient 1e-4
+  mulliken
+  print "mulliken ao"
+  print "final vectors analysis"
+  vectors input atomic output large2.movecs
+  smear
+ convergence ncydp 0 damp 45 dampon 1d99 dampoff 1d-4
+end
+
+task dft energy ignore
 cosmo
+ do_cosmo_smd true
  dielec 80.4
  lineq  0
 end
 
-task dft energy
-
+task dft energy ignore
+set dft:converged t
 property
  dipole
 end
