@@ -14,8 +14,8 @@ def inchiTo3D(args):
        Converts the InChI string to .mol, .mol2, .xyz, and .png files
     """
     with open(args['inchifile']) as f:
-        inchi = f.readline()    # read the InChI string from the .inchi file
-    m4 = Chem.inchi.MolFromInchi(inchi)
+        smiles = f.readline()    # read the InChI string from the .inchi file
+    m4 = Chem.MolFromSmiles(smiles)
     AllChem.Compute2DCoords(m4)
     m5 = Chem.AddHs(m4)
     if m5.GetNumAtoms() > 110:
@@ -45,7 +45,7 @@ def inchiTo3D(args):
 # create .mol file
 
     with open(args['molfile'],'w') as f:
-        m4 = Chem.inchi.MolFromInchi(inchi)
+        m4 = Chem.MolFromSmiles(smiles)
         AllChem.Compute2DCoords(m4)
         m5 = Chem.AddHs(m4)
     #

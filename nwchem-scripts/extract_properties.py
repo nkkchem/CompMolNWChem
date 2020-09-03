@@ -267,7 +267,7 @@ def calculate(InChI_key):
             Mulliken = getMullikenCharge(f, nAtoms)
 
             mu = getDipoleMoment(f)
-            HOMO, LUMO = getHOMO_LUMO(f)
+            HOMO, LUMO = 0, 0 #getHOMO_LUMO(f)
             gap = getGap(LUMO,HOMO)
             E0K = getInternalEnergy0K(f)
             internalEnergy = float(E0K)
